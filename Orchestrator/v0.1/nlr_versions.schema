@@ -1,0 +1,148 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://schemas.botframework.com/schemas/orchestrator/v0.1/nlr_versions.schema",
+    "type": "object",
+    "title": "Orchestrator NLR versions schema",
+    "description": "Orchestrator NLR versions information",
+    "default": {},
+    "examples": [
+        {
+            "version": "0.1",
+            "models": {
+                "1.0.0-pretrained.20200729.microsoft.dte.en.onnx": {
+                    "releaseDate": "07/29/2020",
+                    "modelUri": "https://models.botframework.com/models/dte/onnx/1.0.0-pretrained.20200729.microsoft.dte.en.onnx.7z",
+                    "description": "Bot Framework SDK release 4.10 - English Onnx 3 layer NLR",
+                    "minSDKVersion": "4.10.0"
+                },
+                "1.0.0-pretrained.20200729.microsoft.dte.en.pytorch": {
+                    "releaseDate": "07/29/2020",
+                    "modelUri": "https://models.botframework.com/models/dte/pytorch/1.0.0-pretrained.20200729.microsoft.dte.en.pytorch.7z",
+                    "description": "Bot Framework SDK release 4.10 - English Python NLR",
+                    "minSDKVersion": "4.10.0"
+                },
+                "1.1.0-pretrained.20200819-12l.microsoft.dte.en.onnx": {
+                    "releaseDate": "08/19/2020",
+                    "modelUri": "https://models.botframework.com/models/dte/onnx/1.1.0-pretrained.20200819-12l.microsoft.dte.en.onnx.7z",
+                    "description": "Bot Framework SDK release 4.10 - English Onnx 12 layer NLR",
+                    "minSDKVersion": "4.10.0"
+                }
+            }
+        }
+    ],
+    "required": [
+        "version",
+        "models"
+    ],
+    "properties": {
+        "version": {
+            "$id": "#/properties/version",
+            "type": "string",
+            "title": "The version schema",
+            "description": "Orchestrator NLR schema version",
+            "default": "",
+            "examples": [
+                "0.1"
+            ]
+        },
+        "models": {
+            "$id": "#/properties/models",
+            "type": "object",
+            "title": "Orchestrator models schema",
+            "description": "All Orchestrator NLR model",
+            "default": {},
+            "examples": [
+                {
+                    "1.0.0-pretrained.20200729.microsoft.dte.en.onnx": {
+                        "releaseDate": "07/29/2020",
+                        "modelUri": "https://models.botframework.com/models/dte/onnx/1.0.0-pretrained.20200729.microsoft.dte.en.onnx.7z",
+                        "description": "Bot Framework SDK release 4.10 - English Onnx 3 layer NLR",
+                        "minSDKVersion": "4.10.0"
+                    },
+                    "1.0.0-pretrained.20200729.microsoft.dte.en.pytorch": {
+                        "releaseDate": "07/29/2020",
+                        "modelUri": "https://models.botframework.com/models/dte/pytorch/1.0.0-pretrained.20200729.microsoft.dte.en.pytorch.7z",
+                        "description": "Bot Framework SDK release 4.10 - English Python NLR",
+                        "minSDKVersion": "4.10.0"
+                    },
+                    "1.1.0-pretrained.20200819-12l.microsoft.dte.en.onnx": {
+                        "releaseDate": "08/19/2020",
+                        "modelUri": "https://models.botframework.com/models/dte/onnx/1.1.0-pretrained.20200819-12l.microsoft.dte.en.onnx.7z",
+                        "description": "Bot Framework SDK release 4.10 - English Onnx 12 layer NLR",
+                        "minSDKVersion": "4.10.0"
+                    }
+                }
+            ],
+            "required": [
+                "1.0.0-pretrained.20200729.microsoft.dte.en.onnx",
+            ],
+            "properties": {
+                "1.0.0-pretrained.20200729.microsoft.dte.en.onnx": {
+                    "$id": "#/properties/models/properties/1.0.0-pretrained.20200729.microsoft.dte.en.onnx",
+                    "type": "object",
+                    "title": "The 1.0.0-pretrained.20200729.microsoft.dte.en.onnx schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {
+                            "releaseDate": "07/29/2020",
+                            "modelUri": "https://models.botframework.com/models/dte/onnx/1.0.0-pretrained.20200729.microsoft.dte.en.onnx.7z",
+                            "description": "Bot Framework SDK release 4.10 - English Onnx 3 layer NLR",
+                            "minSDKVersion": "4.10.0"
+                        }
+                    ],
+                    "required": [
+                        "releaseDate",
+                        "modelUri",
+                        "description",
+                        "minSDKVersion"
+                    ],
+                    "properties": {
+                        "releaseDate": {
+                            "$id": "#/properties/models/properties/1.0.0-pretrained.20200729.microsoft.dte.en.onnx/properties/releaseDate",
+                            "type": "string",
+                            "title": "Model release date",
+                            "description": "Model release date",
+                            "default": "",
+                            "examples": [
+                                "07/29/2020"
+                            ]
+                        },
+                        "modelUri": {
+                            "$id": "#/properties/models/properties/1.0.0-pretrained.20200729.microsoft.dte.en.onnx/properties/modelUri",
+                            "type": "string",
+                            "title": "Orchestrator model URL",
+                            "description": "Orchestrator model URL",
+                            "default": "",
+                            "examples": [
+                                "https://models.botframework.com/models/dte/onnx/1.0.0-pretrained.20200729.microsoft.dte.en.onnx.7z"
+                            ]
+                        },
+                        "description": {
+                            "$id": "#/properties/models/properties/1.0.0-pretrained.20200729.microsoft.dte.en.onnx/properties/description",
+                            "type": "string",
+                            "title": "Orchestrator model description",
+                            "description": "Orchestrator model description",
+                            "default": "",
+                            "examples": [
+                                "Bot Framework SDK release 4.10 - English Onnx 3 layer NLR"
+                            ]
+                        },
+                        "minSDKVersion": {
+                            "$id": "#/properties/models/properties/1.0.0-pretrained.20200729.microsoft.dte.en.onnx/properties/minSDKVersion",
+                            "type": "string",
+                            "title": "Bot Framework minimum SDK version",
+                            "description": "Minimum SDK version required to work with this model",
+                            "default": "",
+                            "examples": [
+                                "4.10.0"
+                            ]
+                        }
+                    },
+                    "additionalProperties": true
+                }
+           "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}

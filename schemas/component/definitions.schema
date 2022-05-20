@@ -1,0 +1,211 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/definitions.schema",
+    "title": "JSON Schema definition for dialog schemas.",
+    "description": "In order to create a component for Bot Framework .dialog files you need to create a schema file describing your configuration that meets this definition.  This extends http://json-schema.org/draft-07/schema#.",
+    "definitions": {
+        "component": {
+            "$comment": "This is the base dialog component definition.",
+            "properties": {
+                "$id": {
+                    "title": "Unique id for inline definition",
+                    "description": "Inline id for reuse of an inline definition",
+                    "type": "string",
+                    "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+                },
+                "$copy": {
+                    "title": "Component to use for default properties",
+                    "description": "Copy the definition by id from a .dialog file.",
+                    "type": "string",
+                    "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+                },
+                "$kind": {
+                    "title": "Kind of dialog object",
+                    "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$"
+                },
+                "$designer": {
+                    "title": "Designer information",
+                    "type": "object",
+                    "description": "Extra information for the Bot Framework Composer."
+                }
+            }
+        },
+        "expression": {
+            "$role": "expression",
+            "type": "string",
+            "title": "Expression",
+            "pattern": "^.*\\S.*",
+            "examples":[
+                "user.age > 13"
+            ]
+        },
+        "equalsExpression": {
+            "$role": "expression",
+            "type": "string",
+            "title": "Expression",
+            "pattern": "^=.*\\S.*",
+             "examples":[
+                "=user.name"
+            ]
+        },
+        "condition": {
+            "$role": "expression",
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/expression"
+                },
+                {
+                    "type": "boolean",
+                    "title": "Boolean",
+                    "default": true,
+                    "examples": [
+                        false
+                    ]
+                }
+            ]
+        },
+        "booleanExpression": {
+            "$role": "expression",
+            "oneOf": [
+                {
+                    "type": "boolean",
+                    "title": "Boolean",
+                    "default": false,
+                    "examples": [
+                        false
+                    ]
+                },
+                {
+                    "$ref": "#/definitions/equalsExpression",
+                    "examples": [
+                        "=user.isVip"
+                    ]
+                }
+            ]
+        },
+        "numberExpression": {
+            "$role": "expression",
+            "oneOf": [
+                {
+                    "type": "number",
+                    "title": "Number",
+                    "default": 0,
+                     "examples": [
+                        15.5
+                    ]
+                },
+                {
+                    "$ref": "#/definitions/equalsExpression",
+                    "examples": [
+                        "=dialog.quantity"
+                    ]
+                }
+            ]
+        },
+        "integerExpression": {
+            "$role": "expression",
+            "oneOf": [
+                {
+                    "type": "integer",
+                    "title": "Integer",
+                    "default": 0,
+                     "examples": [
+                        15
+                    ]
+                },
+                {
+                    "$ref": "#/definitions/equalsExpression",
+                    "examples": [
+                        "=user.age"
+                    ]
+                }
+            ]
+        },
+        "stringExpression": {
+            "$role": "expression",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "title": "String",
+                    "pattern":"^(?!(=)).*",
+                     "examples": [
+                        "Hello ${user.name}"
+                    ]
+                },
+                {
+                    "$ref": "#/definitions/equalsExpression",  
+                    "examples": [
+                        "=concat('x','y','z')"
+                    ]                  
+                }
+            ]
+        },
+        "arrayExpression": {
+            "$role": "expression",
+            "oneOf": [
+                {
+                    "type": "array",
+                    "title": "Array"
+                },
+                {
+                    "$ref": "#/definitions/equalsExpression"
+                }
+            ]
+        },
+        "objectExpression": {
+            "$role": "expression",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "title": "Object"
+                },
+                {
+                    "$ref": "#/definitions/equalsExpression"
+                }
+            ]
+        },
+        "valueExpression": {
+            "$role": "expression",
+            "oneOf": [
+                {
+                    "type": "object",
+                    "title": "Object"
+                },
+                {
+                    "type": "array",
+                    "title": "Array"
+                },
+                {
+                    "type": "string",
+                    "title": "String",
+                    "pattern":"^(?!(=)).*",
+                     "examples": [
+                        "Hello ${user.name}"
+                    ]
+                },
+                {
+                    "type": "boolean",
+                    "title": "Boolean",
+                     "examples": [
+                        false
+                    ]
+                },
+                {
+                    "type": "number",
+                    "title": "Number",
+                     "examples": [
+                        15.5
+                    ]
+                },
+                {
+                    "$ref": "#/definitions/equalsExpression",  
+                    "examples": [
+                        "=..."
+                    ]                  
+                }
+            ]
+        }
+    }
+}

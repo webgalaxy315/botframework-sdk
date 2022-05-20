@@ -1,0 +1,37 @@
+#
+# Build Botframework-CLI on Mac (Linux) agent
+#
+
+# "name" here defines the build number format. Build number is accessed via $(Build.BuildNumber)
+name: $(Build.BuildId)
+
+pool:
+    vmImage: 'macOS-10.15'
+
+pr:
+  branches:
+    include:
+     - main
+  paths:
+    include:
+      - '*'
+    exclude:
+      - README.md
+      - specs/*
+      - PortingMap.md
+      - ToolLifetimeSchedule.md
+      - AzureCli.md
+      - CONTRIBUTING.md
+      - LICENSE
+      - PRIVACY.md
+
+variables:
+  version: '1.0.0'
+#  version: define this in Azure, settable at queue time
+
+stages:
+- stage: Build
+  jobs:
+  - job:
+    steps:
+    - template: bf-cli-build-test-steps.yml

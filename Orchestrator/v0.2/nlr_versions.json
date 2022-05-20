@@ -1,0 +1,58 @@
+{
+  "version": "0.2",
+  "defaults": {
+    "en_intent": "pretrained.20200924.microsoft.dte.00.06.en.onnx",
+    "multilingual_intent": "pretrained.20210205.microsoft.dte.00.06.unicoder_multilingual.onnx",
+    "en_entity": "pretrained.20210401.microsoft.dte.00.06.bert_example_ner_addon_free.en.onnx"
+  },
+  "models": {
+    "pretrained.20200924.microsoft.dte.00.03.en.onnx": {
+      "releaseDate": "09/24/2020",
+      "modelUri": "https://aka.ms/pretrained.20200924.microsoft.dte.00.03.en.onnx",
+      "description": "Bot Framework SDK release 4.10 - English ONNX V1.4 3-layer per-token intent base model",
+      "minSDKVersion": "4.10.0"
+    },
+    "pretrained.20200924.microsoft.dte.00.06.en.onnx": {
+      "releaseDate": "09/24/2020",
+      "modelUri": "https://aka.ms/pretrained.20200924.microsoft.dte.00.06.en.onnx",
+      "description": "Bot Framework SDK release 4.10 - English ONNX V1.4 6-layer per-token intent base model",
+      "minSDKVersion": "4.10.0"
+    },
+    "pretrained.20200924.microsoft.dte.00.12.en.onnx": {
+      "releaseDate": "09/24/2020",
+      "modelUri": "https://aka.ms/pretrained.20200924.microsoft.dte.00.12.en.onnx",
+      "description": "Bot Framework SDK release 4.10 - English ONNX V1.4 12-layer per-token intent base model",
+      "minSDKVersion": "4.10.0"
+    },
+	"pretrained.20210521.microsoft.dte.01.06.int.en.onnx": {
+      "releaseDate": "06/14/2021",
+      "modelUri": "https://models.botframework.com/models/dte/onnx/pretrained.20210521.microsoft.dte.01.06.int.en.onnx.zip",
+      "description": "Bot Framework SDK release 4.10 - English ONNX V1.4 6-layer int per-token intent base model with updated calibration thresholds",
+      "minSDKVersion": "4.10.0"
+    },
+	"pretrained.20210205.microsoft.dte.00.06.unicoder_multilingual.onnx": {
+      "releaseDate": "02/05/2021",
+      "modelUri": "https://aka.ms/pretrained.20210205.microsoft.dte.00.06.unicoder_multilingual.onnx",
+      "description": "Bot Framework SDK release 4.12 - Multilingual ONNX V1.4 6-layer per-token intent base model",
+      "minSDKVersion": "4.12.0"
+    },
+    "pretrained.20201210.microsoft.dte.00.12.unicoder_multilingual.onnx": {
+      "releaseDate": "12/10/2020",
+      "modelUri": "https://aka.ms/pretrained.20201210.microsoft.dte.00.12.unicoder_multilingual.onnx",
+      "description": "Bot Framework SDK release 4.12 - Multilingual ONNX V1.4 12-layer per-token intent base model",
+      "minSDKVersion": "4.12.0"
+    },
+	"pretrained.20210608.microsoft.dte.01.06.int.unicoder_multilingual.onnx": {
+      "releaseDate": "06/14/2021",
+      "modelUri": "https://models.botframework.com/models/dte/onnx/pretrained.20210608.microsoft.dte.01.06.int.unicoder_multilingual.onnx.zip",
+      "description": "Bot Framework SDK release 4.12 - Multilingual ONNX V1.4 6-layer int per-token intent base model with updated calibration thresholds",
+      "minSDKVersion": "4.12.0"
+    },
+	"pretrained.20210401.microsoft.dte.00.06.bert_example_ner_addon_free.en.onnx": {
+      "releaseDate": "04/01/2021",
+      "modelUri": "https://models.botframework.com/models/dte/onnx/pretrained.20210401.microsoft.dte.00.06.bert_example_ner_addon_free.en.onnx.zip",
+      "description": "(experimental) Bot Framework SDK release 4.14 - English ONNX V1.4 6-layer per-token entity base model",
+      "minSDKVersion": "4.14.0"
+    }
+  }
+}

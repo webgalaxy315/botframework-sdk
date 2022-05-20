@@ -1,0 +1,124 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://schemas.botframework.com/schemas/orchestrator/v0.2/nlr_versions.schema",
+    "type": "object",
+    "title": "Orchestrator base model versions schema",
+    "description": "Orchestrator base model versions information",
+    "default": {},
+    "examples": [
+        {
+            "version": "0.2",
+            "models": {
+                "pretrained.20200924.microsoft.dte.00.06.en.onnx": {
+                    "releaseDate": "09/24/2020",
+                    "modelUri": "https://models.botframework.com/models/dte/onnx/pretrained.20200924.microsoft.dte.00.06.en.onnx.zip",
+                    "description": "Bot Framework SDK release 4.10 - English Onnx V1.4 6-layer per-token intent base model",
+                    "minSDKVersion": "4.10.0"
+                }
+            }
+        }
+    ],
+    "required": [
+        "version",
+        "models"
+    ],
+    "properties": {
+        "version": {
+            "$id": "#/properties/version",
+            "type": "string",
+            "title": "The version schema",
+            "description": "Orchestrator base model schema version",
+            "default": "",
+            "examples": [
+                "0.2"
+            ]
+        },
+        "models": {
+            "$id": "#/properties/models",
+            "type": "object",
+            "title": "Orchestrator models schema",
+            "description": "All Orchestrator base model",
+            "default": {},
+            "examples": [
+                {
+                    "pretrained.20200924.microsoft.dte.00.06.en.onnx": {
+                        "releaseDate": "09/24/2020",
+                        "modelUri": "https://models.botframework.com/models/dte/onnx/pretrained.20200924.microsoft.dte.00.06.en.onnx.zip",
+                        "description": "Bot Framework SDK release 4.10 - English Onnx V1.4 6-layer per-token intent base model",
+                        "minSDKVersion": "4.10.0"
+                    }
+                }
+            ],
+            "required": [
+                "1.0.0-pretrained.20200729.microsoft.dte.en.onnx",
+            ],
+            "properties": {
+                "1.0.0-pretrained.20200729.microsoft.dte.en.onnx": {
+                    "$id": "#/properties/models/properties/1.0.0-pretrained.20200729.microsoft.dte.en.onnx",
+                    "type": "object",
+                    "title": "The 1.0.0-pretrained.20200729.microsoft.dte.en.onnx schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {
+                            "releaseDate": "09/24/2020",
+                            "modelUri": "https://models.botframework.com/models/dte/onnx/pretrained.20200924.microsoft.dte.00.06.en.onnx.zip",
+                            "description": "Bot Framework SDK release 4.10 - English Onnx V1.4 6-layer per-token intent base model",
+                            "minSDKVersion": "4.10.0"
+                        }
+                    ],
+                    "required": [
+                        "releaseDate",
+                        "modelUri",
+                        "description",
+                        "minSDKVersion"
+                    ],
+                    "properties": {
+                        "releaseDate": {
+                            "$id": "#/properties/models/properties/pretrained.20200924.microsoft.dte.00.06.en.onnx/properties/releaseDate",
+                            "type": "string",
+                            "title": "Model release date",
+                            "description": "Model release date",
+                            "default": "",
+                            "examples": [
+                                "09/24/2020"
+                            ]
+                        },
+                        "modelUri": {
+                            "$id": "#/properties/models/properties/pretrained.20200924.microsoft.dte.00.06.en.onnx/properties/modelUri",
+                            "type": "string",
+                            "title": "Orchestrator model URL",
+                            "description": "Orchestrator model URL",
+                            "default": "",
+                            "examples": [
+                                "https://models.botframework.com/models/dte/onnx/pretrained.20200924.microsoft.dte.00.06.en.onnx.zip"
+                            ]
+                        },
+                        "description": {
+                            "$id": "#/properties/models/properties/pretrained.20200924.microsoft.dte.00.06.en.onnx/properties/description",
+                            "type": "string",
+                            "title": "Orchestrator model description",
+                            "description": "Orchestrator model description",
+                            "default": "",
+                            "examples": [
+                                "Bot Framework SDK release 4.10 - English Onnx V1.4 6-layer per-token intent base model"
+                            ]
+                        },
+                        "minSDKVersion": {
+                            "$id": "#/properties/models/properties/pretrained.20200924.microsoft.dte.00.06.en.onnx/properties/minSDKVersion",
+                            "type": "string",
+                            "title": "Bot Framework minimum SDK version",
+                            "description": "Minimum SDK version required to work with this model",
+                            "default": "",
+                            "examples": [
+                                "4.10.0"
+                            ]
+                        }
+                    },
+                    "additionalProperties": true
+                }
+           "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}

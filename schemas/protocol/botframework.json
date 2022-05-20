@@ -1,0 +1,2470 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "AttachmentView": {
+            "description": "Attachment View name and size",
+            "title": "AttachmentView",
+            "type": "object",
+            "properties": {
+                "viewId": {
+                    "description": "Content type of the attachment",
+                    "type": "string",
+                    "title": "viewId"
+                },
+                "size": {
+                    "description": "Name of the attachment",
+                    "type": "number",
+                    "title": "size"
+                }
+            },
+            "required": [
+                "size",
+                "viewId"
+            ]
+        },
+        "AttachmentInfo": {
+            "description": "Metadata for an attachment",
+            "title": "AttachmentInfo",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "Name of the attachment",
+                    "type": "string",
+                    "title": "name"
+                },
+                "type": {
+                    "description": "ContentType of the attachment",
+                    "type": "string",
+                    "title": "type"
+                },
+                "views": {
+                    "description": "attachment views",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AttachmentView"
+                    },
+                    "title": "views"
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "views"
+            ]
+        },
+        "InnerHttpError": {
+            "description": "Object representing inner http error",
+            "title": "InnerHttpError",
+            "type": "object",
+            "properties": {
+                "statusCode": {
+                    "description": "HttpStatusCode from failed request",
+                    "type": "number",
+                    "title": "statusCode"
+                },
+                "body": {
+                    "description": "Body from failed request",
+                    "title": "body"
+                }
+            },
+            "required": [
+                "body",
+                "statusCode"
+            ]
+        },
+        "ErrorModel": {
+            "description": "Object representing error information",
+            "title": "ErrorModel",
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "Error code",
+                    "type": "string",
+                    "title": "code"
+                },
+                "message": {
+                    "description": "Error message",
+                    "type": "string",
+                    "title": "message"
+                },
+                "innerHttpError": {
+                    "$ref": "#/definitions/InnerHttpError",
+                    "description": "Error from inner http call",
+                    "title": "innerHttpError"
+                }
+            },
+            "required": [
+                "code",
+                "innerHttpError",
+                "message"
+            ]
+        },
+        "ErrorResponse": {
+            "description": "An HTTP API response",
+            "title": "ErrorResponse",
+            "type": "object",
+            "properties": {
+                "error": {
+                    "$ref": "#/definitions/ErrorModel",
+                    "description": "Error message",
+                    "title": "error"
+                }
+            },
+            "required": [
+                "error"
+            ]
+        },
+        "ChannelAccount": {
+            "description": "Channel account information needed to route a message",
+            "title": "ChannelAccount",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Channel id for the user or bot on this channel (Example: joe@smith.com, or @joesmith or\n123456)",
+                    "type": "string",
+                    "title": "id"
+                },
+                "name": {
+                    "description": "Display friendly name",
+                    "type": "string",
+                    "title": "name"
+                },
+                "aadObjectId": {
+                    "description": "This account's object ID within Azure Active Directory (AAD)",
+                    "type": "string",
+                    "title": "aadObjectId"
+                },
+                "role": {
+                    "description": "Role of the entity behind the account (Example: User, Bot, etc.). Possible values include:\n'user', 'bot'",
+                    "type": "string",
+                    "title": "role"
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        },
+        "ConversationAccount": {
+            "description": "Channel account information for a conversation",
+            "title": "ConversationAccount",
+            "type": "object",
+            "properties": {
+                "isGroup": {
+                    "description": "Indicates whether the conversation contains more than two participants at the time the\nactivity was generated",
+                    "type": "boolean",
+                    "title": "isGroup"
+                },
+                "conversationType": {
+                    "description": "Indicates the type of the conversation in channels that distinguish between conversation types",
+                    "type": "string",
+                    "title": "conversationType"
+                },
+                "id": {
+                    "description": "Channel id for the user or bot on this channel (Example: joe@smith.com, or @joesmith or\n123456)",
+                    "type": "string",
+                    "title": "id"
+                },
+                "name": {
+                    "description": "Display friendly name",
+                    "type": "string",
+                    "title": "name"
+                },
+                "aadObjectId": {
+                    "description": "This account's object ID within Azure Active Directory (AAD)",
+                    "type": "string",
+                    "title": "aadObjectId"
+                },
+                "role": {
+                    "description": "Role of the entity behind the account (Example: User, Bot, etc.). Possible values include:\n'user', 'bot'",
+                    "enum": [
+                        "bot",
+                        "user"
+                    ],
+                    "type": "string",
+                    "title": "role"
+                }
+            },
+            "required": [
+                "conversationType",
+                "id",
+                "isGroup",
+                "name"
+            ]
+        },
+        "MessageReaction": {
+            "description": "Message reaction object",
+            "title": "MessageReaction",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "Message reaction type. Possible values include: 'like', 'plusOne'",
+                    "type": "string",
+                    "title": "type"
+                }
+            },
+            "required": [
+                "type"
+            ]
+        },
+        "CardAction": {
+            "description": "A clickable action",
+            "title": "CardAction",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "The type of action implemented by this button. Possible values include: 'openUrl', 'imBack',\n'postBack', 'playAudio', 'playVideo', 'showImage', 'downloadFile', 'signin', 'call',\n'payment', 'messageBack'",
+                    "type": "string",
+                    "title": "type"
+                },
+                "title": {
+                    "description": "Text description which appears on the button",
+                    "type": "string",
+                    "title": "title"
+                },
+                "image": {
+                    "description": "Image URL which will appear on the button, next to text label",
+                    "type": "string",
+                    "title": "image"
+                },
+                "text": {
+                    "description": "Text for this action",
+                    "type": "string",
+                    "title": "text"
+                },
+                "displayText": {
+                    "description": "(Optional) text to display in the chat feed if the button is clicked",
+                    "type": "string",
+                    "title": "displayText"
+                },
+                "value": {
+                    "description": "Supplementary parameter for action. Content of this property depends on the ActionType",
+                    "title": "value"
+                },
+                "channelData": {
+                    "description": "Channel-specific data associated with this action",
+                    "title": "channelData"
+                }
+            },
+            "required": [
+                "title",
+                "type",
+                "value"
+            ]
+        },
+        "SuggestedActions": {
+            "description": "SuggestedActions that can be performed",
+            "title": "SuggestedActions",
+            "type": "object",
+            "properties": {
+                "to": {
+                    "description": "Ids of the recipients that the actions should be shown to.  These Ids are relative to the\nchannelId and a subset of all recipients of the activity",
+                    "type": "array",
+                    "items": {
+                        "title": "Id",
+                        "description": "Id of recipient.",
+                        "type": "string"
+                    },
+                    "title": "to"
+                },
+                "actions": {
+                    "description": "Actions that can be shown to the user",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "actions"
+                }
+            },
+            "required": [
+                "actions",
+                "to"
+            ]
+        },
+        "Attachment": {
+            "description": "An attachment within an activity",
+            "title": "Attachment",
+            "type": "object",
+            "properties": {
+                "contentType": {
+                    "description": "mimetype/Contenttype for the file",
+                    "type": "string",
+                    "title": "contentType"
+                },
+                "contentUrl": {
+                    "description": "Content Url",
+                    "type": "string",
+                    "title": "contentUrl"
+                },
+                "content": {
+                    "type": "object",
+                    "description": "Embedded content",
+                    "title": "content"
+                },
+                "name": {
+                    "description": "(OPTIONAL) The name of the attachment",
+                    "type": "string",
+                    "title": "name"
+                },
+                "thumbnailUrl": {
+                    "description": "(OPTIONAL) Thumbnail associated with attachment",
+                    "type": "string",
+                    "title": "thumbnailUrl"
+                }
+            },
+            "required": [
+                "contentType"
+            ]
+        },
+        "Entity": {
+            "description": "Metadata object pertaining to an activity",
+            "title": "Entity",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "Type of this entity (RFC 3987 IRI)",
+                    "type": "string",
+                    "title": "type"
+                }
+            },
+            "required": [
+                "type"
+            ]
+        },
+        "ConversationReference": {
+            "description": "An object relating to a particular point in a conversation",
+            "title": "ConversationReference",
+            "type": "object",
+            "properties": {
+                "activityId": {
+                    "description": "(Optional) ID of the activity to refer to",
+                    "type": "string",
+                    "title": "activityId"
+                },
+                "user": {
+                    "description": "(Optional) User participating in this conversation",
+                    "$ref": "#/definitions/ChannelAccount",
+                    "title": "user"
+                },
+                "bot": {
+                    "$ref": "#/definitions/ChannelAccount",
+                    "description": "Bot participating in this conversation",
+                    "title": "bot"
+                },
+                "conversation": {
+                    "$ref": "#/definitions/ConversationAccount",
+                    "description": "Conversation reference",
+                    "title": "conversation"
+                },
+                "channelId": {
+                    "description": "Channel ID",
+                    "type": "string",
+                    "title": "channelId"
+                },
+                "serviceUrl": {
+                    "description": "Service endpoint where operations concerning the referenced conversation may be performed",
+                    "type": "string",
+                    "title": "serviceUrl"
+                }
+            },
+            "required": [
+                "bot",
+                "channelId",
+                "conversation",
+                "serviceUrl"
+            ]
+        },
+        "TextHighlight": {
+            "description": "Refers to a substring of content within another field",
+            "title": "TextHighlight",
+            "type": "object",
+            "properties": {
+                "text": {
+                    "description": "Defines the snippet of text to highlight",
+                    "type": "string",
+                    "title": "text"
+                },
+                "occurrence": {
+                    "description": "Occurrence of the text field within the referenced text, if multiple exist.",
+                    "type": "number",
+                    "title": "occurrence"
+                }
+            },
+            "required": [
+                "occurrence",
+                "text"
+            ]
+        },
+        "SemanticAction": {
+            "description": "Represents a reference to a programmatic action",
+            "title": "SemanticAction",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "ID of this action",
+                    "type": "string",
+                    "title": "id"
+                },
+                "entities": {
+                    "description": "Entities associated with this action",
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Entity"
+                    },
+                    "title": "entities"
+                }
+            },
+            "required": [
+                "entities",
+                "id"
+            ]
+        },
+        "Activity": {
+            "description": "An Activity is the basic communication type for the Bot Framework 3.0 protocol.",
+            "title": "Activity",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "Contains the activity type. Possible values include: 'message', 'contactRelationUpdate',\n'conversationUpdate', 'typing', 'endOfConversation', 'event', 'invoke', 'deleteUserData',\n'messageUpdate', 'messageDelete', 'installationUpdate', 'messageReaction', 'suggestion',\n'trace', 'handoff'",
+                    "type": "string",
+                    "title": "type"
+                },
+                "id": {
+                    "description": "Contains an ID that uniquely identifies the activity on the channel.",
+                    "type": "string",
+                    "title": "id"
+                },
+                "timestamp": {
+                    "description": "Contains the date and time that the message was sent, in UTC, expressed in ISO-8601 format.",
+                    "type": "string",
+                    "format": "date-time",
+                    "title": "timestamp"
+                },
+                "localTimestamp": {
+                    "description": "Contains the date and time that the message was sent, in local time, expressed in ISO-8601\nformat.\nFor example, 2016-09-23T13:07:49.4714686-07:00.",
+                    "type": "string",
+                    "format": "date-time",
+                    "title": "localTimestamp"
+                },
+                "localTimezone": {
+                    "description": "Contains the name of the timezone in which the message, in local time, expressed in IANA Time\nZone database format.\nFor example, America/Los_Angeles.",
+                    "type": "string",
+                    "title": "localTimezone"
+                },
+                "serviceUrl": {
+                    "description": "Contains the URL that specifies the channel's service endpoint. Set by the channel.",
+                    "type": "string",
+                    "title": "serviceUrl"
+                },
+                "channelId": {
+                    "description": "Contains an ID that uniquely identifies the channel. Set by the channel.",
+                    "type": "string",
+                    "title": "channelId"
+                },
+                "from": {
+                    "$ref": "#/definitions/ChannelAccount",
+                    "description": "Identifies the sender of the message.",
+                    "title": "from"
+                },
+                "conversation": {
+                    "$ref": "#/definitions/ConversationAccount",
+                    "description": "Identifies the conversation to which the activity belongs.",
+                    "title": "conversation"
+                },
+                "recipient": {
+                    "$ref": "#/definitions/ChannelAccount",
+                    "description": "Identifies the recipient of the message.",
+                    "title": "recipient"
+                },
+                "textFormat": {
+                    "description": "Format of text fields Default:markdown. Possible values include: 'markdown', 'plain', 'xml'",
+                    "type": "string",
+                    "title": "textFormat"
+                },
+                "attachmentLayout": {
+                    "description": "The layout hint for multiple attachments. Default: list. Possible values include: 'list',\n'carousel'",
+                    "type": "string",
+                    "title": "attachmentLayout"
+                },
+                "membersAdded": {
+                    "description": "The collection of members added to the conversation.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ChannelAccount"
+                    },
+                    "title": "membersAdded"
+                },
+                "membersRemoved": {
+                    "description": "The collection of members removed from the conversation.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ChannelAccount"
+                    },
+                    "title": "membersRemoved"
+                },
+                "reactionsAdded": {
+                    "description": "The collection of reactions added to the conversation.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MessageReaction"
+                    },
+                    "title": "reactionsAdded"
+                },
+                "reactionsRemoved": {
+                    "description": "The collection of reactions removed from the conversation.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MessageReaction"
+                    },
+                    "title": "reactionsRemoved"
+                },
+                "topicName": {
+                    "description": "The updated topic name of the conversation.",
+                    "type": "string",
+                    "title": "topicName"
+                },
+                "historyDisclosed": {
+                    "description": "Indicates whether the prior history of the channel is disclosed.",
+                    "type": "boolean",
+                    "title": "historyDisclosed"
+                },
+                "locale": {
+                    "description": "A locale name for the contents of the text field.\nThe locale name is a combination of an ISO 639 two- or three-letter culture code associated\nwith a language\nand an ISO 3166 two-letter subculture code associated with a country or region.\nThe locale name can also correspond to a valid BCP-47 language tag.",
+                    "type": "string",
+                    "title": "locale"
+                },
+                "text": {
+                    "description": "The text content of the message.",
+                    "type": "string",
+                    "title": "text"
+                },
+                "speak": {
+                    "description": "The text to speak.",
+                    "type": "string",
+                    "title": "speak"
+                },
+                "inputHint": {
+                    "description": "Indicates whether your bot is accepting,\nexpecting, or ignoring user input after the message is delivered to the client. Possible\nvalues include: 'acceptingInput', 'ignoringInput', 'expectingInput'",
+                    "type": "string",
+                    "title": "inputHint"
+                },
+                "summary": {
+                    "description": "The text to display if the channel cannot render cards.",
+                    "type": "string",
+                    "title": "summary"
+                },
+                "suggestedActions": {
+                    "description": "The suggested actions for the activity.",
+                    "$ref": "#/definitions/SuggestedActions",
+                    "title": "suggestedActions"
+                },
+                "attachments": {
+                    "description": "Attachments",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Attachment"
+                    },
+                    "title": "attachments"
+                },
+                "entities": {
+                    "description": "Represents the entities that were mentioned in the message.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Entity"
+                    },
+                    "title": "entities"
+                },
+                "channelData": {
+                    "description": "Contains channel-specific content.",
+                    "title": "channelData"
+                },
+                "action": {
+                    "description": "Indicates whether the recipient of a contactRelationUpdate was added or removed from the\nsender's contact list.",
+                    "type": "string",
+                    "title": "action"
+                },
+                "replyToId": {
+                    "description": "Contains the ID of the message to which this message is a reply.",
+                    "type": "string",
+                    "title": "replyToId"
+                },
+                "label": {
+                    "description": "A descriptive label for the activity.",
+                    "type": "string",
+                    "title": "label"
+                },
+                "valueType": {
+                    "description": "The type of the activity's value object.",
+                    "type": "string",
+                    "title": "valueType"
+                },
+                "value": {
+                    "description": "A value that is associated with the activity.",
+                    "title": "value"
+                },
+                "name": {
+                    "description": "The name of the operation associated with an invoke or event activity.",
+                    "type": "string",
+                    "title": "name"
+                },
+                "relatesTo": {
+                    "description": "A reference to another conversation or activity.",
+                    "$ref": "#/definitions/ConversationReference",
+                    "title": "relatesTo"
+                },
+                "code": {
+                    "description": "The a code for endOfConversation activities that indicates why the conversation ended.\nPossible values include: 'unknown', 'completedSuccessfully', 'userCancelled', 'botTimedOut',\n'botIssuedInvalidMessage', 'channelFailed'",
+                    "type": "string",
+                    "title": "code"
+                },
+                "expiration": {
+                    "description": "The time at which the activity should be considered to be \"expired\" and should not be\npresented to the recipient.",
+                    "type": "string",
+                    "format": "date-time",
+                    "title": "expiration"
+                },
+                "importance": {
+                    "description": "The importance of the activity. Possible values include: 'low', 'normal', 'high'",
+                    "type": "string",
+                    "title": "importance"
+                },
+                "deliveryMode": {
+                    "description": "A delivery hint to signal to the recipient alternate delivery paths for the activity.\nThe default delivery mode is \"default\". Possible values include: 'normal', 'notification'",
+                    "type": "string",
+                    "title": "deliveryMode"
+                },
+                "listenFor": {
+                    "description": "List of phrases and references that speech and language priming systems should listen for",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "title": "Phrase",
+                        "description": "Phrase to listen for."
+                    },
+                    "title": "listenFor"
+                },
+                "textHighlights": {
+                    "description": "The collection of text fragments to highlight when the activity contains a ReplyToId value.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TextHighlight"
+                    },
+                    "title": "textHighlights"
+                },
+                "semanticAction": {
+                    "$ref": "#/definitions/SemanticAction",
+                    "description": "An optional programmatic action accompanying this request",
+                    "title": "semanticAction"
+                }
+            },
+            "required": [
+                "channelId",
+                "conversation",
+                "type"
+            ]
+        },
+        "ConversationParameters": {
+            "description": "Parameters for creating a new conversation",
+            "title": "ConversationParameters",
+            "type": "object",
+            "properties": {
+                "isGroup": {
+                    "description": "IsGroup",
+                    "type": "boolean",
+                    "title": "isGroup"
+                },
+                "bot": {
+                    "$ref": "#/definitions/ChannelAccount",
+                    "description": "The bot address for this conversation",
+                    "title": "bot"
+                },
+                "members": {
+                    "description": "Members to add to the conversation",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ChannelAccount"
+                    },
+                    "title": "members"
+                },
+                "topicName": {
+                    "description": "(Optional) Topic of the conversation (if supported by the channel)",
+                    "type": "string",
+                    "title": "topicName"
+                },
+                "activity": {
+                    "$ref": "#/definitions/Activity",
+                    "description": "(Optional) When creating a new conversation, use this activity as the initial message to the\nconversation",
+                    "title": "activity"
+                },
+                "channelData": {
+                    "description": "Channel specific payload for creating the conversation",
+                    "title": "channelData"
+                }
+            },
+            "required": [
+                "activity",
+                "bot",
+                "channelData",
+                "isGroup"
+            ]
+        },
+        "ConversationResourceResponse": {
+            "description": "A response containing a resource",
+            "title": "ConversationResourceResponse",
+            "type": "object",
+            "properties": {
+                "activityId": {
+                    "description": "ID of the Activity (if sent)",
+                    "type": "string",
+                    "title": "activityId"
+                },
+                "serviceUrl": {
+                    "description": "Service endpoint where operations concerning the conversation may be performed",
+                    "type": "string",
+                    "title": "serviceUrl"
+                },
+                "id": {
+                    "description": "Id of the resource",
+                    "type": "string",
+                    "title": "id"
+                }
+            },
+            "required": [
+                "activityId",
+                "id",
+                "serviceUrl"
+            ]
+        },
+        "ConversationMembers": {
+            "description": "Conversation and its members",
+            "title": "ConversationMembers",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Conversation ID",
+                    "type": "string",
+                    "title": "id"
+                },
+                "members": {
+                    "description": "List of members in this conversation",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ChannelAccount"
+                    },
+                    "title": "members"
+                }
+            },
+            "required": [
+                "id",
+                "members"
+            ]
+        },
+        "ConversationsResult": {
+            "description": "Conversations result",
+            "title": "ConversationsResult",
+            "type": "object",
+            "properties": {
+                "continuationToken": {
+                    "description": "Paging token",
+                    "type": "string",
+                    "title": "continuationToken"
+                },
+                "conversations": {
+                    "description": "List of conversations",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ConversationMembers"
+                    },
+                    "title": "conversations"
+                }
+            },
+            "required": [
+                "continuationToken",
+                "conversations"
+            ]
+        },
+        "ResourceResponse": {
+            "description": "A response containing a resource ID",
+            "title": "ResourceResponse",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Id of the resource",
+                    "type": "string",
+                    "title": "id"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "Transcript": {
+            "description": "Transcript",
+            "title": "Transcript",
+            "type": "object",
+            "properties": {
+                "activities": {
+                    "description": "A collection of Activities that conforms to the Transcript schema.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Activity"
+                    },
+                    "title": "activities"
+                }
+            },
+            "required": [
+                "activities"
+            ]
+        },
+        "PagedMembersResult": {
+            "description": "Page of members.",
+            "title": "PagedMembersResult",
+            "type": "object",
+            "properties": {
+                "continuationToken": {
+                    "description": "Paging token",
+                    "type": "string",
+                    "title": "continuationToken"
+                },
+                "members": {
+                    "description": "The Channel Accounts.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ChannelAccount"
+                    },
+                    "title": "members"
+                }
+            },
+            "required": [
+                "continuationToken",
+                "members"
+            ]
+        },
+        "AttachmentData": {
+            "description": "Attachment data",
+            "title": "AttachmentData",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "Content-Type of the attachment",
+                    "type": "string",
+                    "title": "type"
+                },
+                "name": {
+                    "description": "Name of the attachment",
+                    "type": "string",
+                    "title": "name"
+                },
+                "originalBase64": {
+                    "description": "Attachment content",
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "originalBase64"
+                },
+                "thumbnailBase64": {
+                    "description": "Attachment thumbnail",
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    },
+                    "title": "thumbnailBase64"
+                }
+            },
+            "required": [
+                "name",
+                "originalBase64",
+                "thumbnailBase64",
+                "type"
+            ]
+        },
+        "CardImage": {
+            "description": "An image on a card",
+            "title": "CardImage",
+            "type": "object",
+            "properties": {
+                "url": {
+                    "description": "URL thumbnail image for major content property",
+                    "type": "string",
+                    "title": "url"
+                },
+                "alt": {
+                    "description": "Image description intended for screen readers",
+                    "type": "string",
+                    "title": "alt"
+                },
+                "tap": {
+                    "description": "Action assigned to specific Attachment",
+                    "$ref": "#/definitions/CardAction",
+                    "title": "tap"
+                }
+            },
+            "required": [
+                "url"
+            ]
+        },
+        "HeroCard": {
+            "description": "A Hero card (card with a single, large image)",
+            "title": "HeroCard",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title of the card",
+                    "type": "string",
+                    "title": "title"
+                },
+                "subtitle": {
+                    "description": "Subtitle of the card",
+                    "type": "string",
+                    "title": "subtitle"
+                },
+                "text": {
+                    "description": "Text for the card",
+                    "type": "string",
+                    "title": "text"
+                },
+                "images": {
+                    "description": "Array of images for the card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardImage"
+                    },
+                    "title": "images"
+                },
+                "buttons": {
+                    "description": "Set of actions applicable to the current card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                },
+                "tap": {
+                    "$ref": "#/definitions/CardAction",
+                    "description": "This action will be activated when user taps on the card itself",
+                    "title": "tap"
+                }
+            },
+            "required": [
+                "buttons",
+                "images",
+                "subtitle",
+                "tap",
+                "text",
+                "title"
+            ]
+        },
+        "ThumbnailUrl": {
+            "description": "Thumbnail URL",
+            "title": "ThumbnailUrl",
+            "type": "object",
+            "properties": {
+                "url": {
+                    "description": "URL pointing to the thumbnail to use for media content",
+                    "type": "string",
+                    "title": "url"
+                },
+                "alt": {
+                    "description": "HTML alt text to include on this thumbnail image",
+                    "type": "string",
+                    "title": "alt"
+                }
+            },
+            "required": [
+                "alt",
+                "url"
+            ]
+        },
+        "MediaUrl": {
+            "description": "Media URL",
+            "title": "MediaUrl",
+            "type": "object",
+            "properties": {
+                "url": {
+                    "description": "Url for the media",
+                    "type": "string",
+                    "title": "url"
+                },
+                "profile": {
+                    "description": "Optional profile hint to the client to differentiate multiple MediaUrl objects from each other",
+                    "type": "string",
+                    "title": "profile"
+                }
+            },
+            "required": [
+                "url"
+            ]
+        },
+        "AnimationCard": {
+            "description": "An animation card (Ex: gif or short video clip)",
+            "title": "AnimationCard",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title of this card",
+                    "type": "string",
+                    "title": "title"
+                },
+                "subtitle": {
+                    "description": "Subtitle of this card",
+                    "type": "string",
+                    "title": "subtitle"
+                },
+                "text": {
+                    "description": "Text of this card",
+                    "type": "string",
+                    "title": "text"
+                },
+                "image": {
+                    "$ref": "#/definitions/ThumbnailUrl",
+                    "description": "Thumbnail placeholder",
+                    "title": "image"
+                },
+                "media": {
+                    "description": "Media URLs for this card. When this field contains more than one URL, each URL is an\nalternative format of the same content.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MediaUrl"
+                    },
+                    "title": "media"
+                },
+                "buttons": {
+                    "description": "Actions on this card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                },
+                "shareable": {
+                    "description": "This content may be shared with others (default:true)",
+                    "type": "boolean",
+                    "title": "shareable"
+                },
+                "autoloop": {
+                    "description": "Should the client loop playback at end of content (default:true)",
+                    "type": "boolean",
+                    "title": "autoloop"
+                },
+                "autostart": {
+                    "description": "Should the client automatically start playback of media in this card (default:true)",
+                    "type": "boolean",
+                    "title": "autostart"
+                },
+                "aspect": {
+                    "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+                    "type": "string",
+                    "title": "aspect"
+                },
+                "duration": {
+                    "description": "Describes the length of the media content without requiring a receiver to open the content.\nFormatted as an ISO 8601 Duration field.",
+                    "type": "string",
+                    "title": "duration"
+                },
+                "value": {
+                    "description": "Supplementary parameter for this card",
+                    "title": "value"
+                }
+            },
+            "required": [
+                "aspect",
+                "autoloop",
+                "autostart",
+                "buttons",
+                "duration",
+                "image",
+                "media",
+                "shareable",
+                "subtitle",
+                "text",
+                "title",
+                "value"
+            ]
+        },
+        "AudioCard": {
+            "description": "Audio card",
+            "title": "AudioCard",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title of this card",
+                    "type": "string",
+                    "title": "title"
+                },
+                "subtitle": {
+                    "description": "Subtitle of this card",
+                    "type": "string",
+                    "title": "subtitle"
+                },
+                "text": {
+                    "description": "Text of this card",
+                    "type": "string",
+                    "title": "text"
+                },
+                "image": {
+                    "$ref": "#/definitions/ThumbnailUrl",
+                    "description": "Thumbnail placeholder",
+                    "title": "image"
+                },
+                "media": {
+                    "description": "Media URLs for this card. When this field contains more than one URL, each URL is an\nalternative format of the same content.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MediaUrl"
+                    },
+                    "title": "media"
+                },
+                "buttons": {
+                    "description": "Actions on this card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                },
+                "shareable": {
+                    "description": "This content may be shared with others (default:true)",
+                    "type": "boolean",
+                    "title": "shareable"
+                },
+                "autoloop": {
+                    "description": "Should the client loop playback at end of content (default:true)",
+                    "type": "boolean",
+                    "title": "autoloop"
+                },
+                "autostart": {
+                    "description": "Should the client automatically start playback of media in this card (default:true)",
+                    "type": "boolean",
+                    "title": "autostart"
+                },
+                "aspect": {
+                    "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+                    "type": "string",
+                    "title": "aspect"
+                },
+                "duration": {
+                    "description": "Describes the length of the media content without requiring a receiver to open the content.\nFormatted as an ISO 8601 Duration field.",
+                    "type": "string",
+                    "title": "duration"
+                },
+                "value": {
+                    "description": "Supplementary parameter for this card",
+                    "title": "value"
+                }
+            },
+            "required": [
+                "aspect",
+                "autoloop",
+                "autostart",
+                "buttons",
+                "duration",
+                "image",
+                "media",
+                "shareable",
+                "subtitle",
+                "text",
+                "title",
+                "value"
+            ]
+        },
+        "BasicCard": {
+            "description": "A basic card",
+            "title": "BasicCard",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title of the card",
+                    "type": "string",
+                    "title": "title"
+                },
+                "subtitle": {
+                    "description": "Subtitle of the card",
+                    "type": "string",
+                    "title": "subtitle"
+                },
+                "text": {
+                    "description": "Text for the card",
+                    "type": "string",
+                    "title": "text"
+                },
+                "images": {
+                    "description": "Array of images for the card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardImage"
+                    },
+                    "title": "images"
+                },
+                "buttons": {
+                    "description": "Set of actions applicable to the current card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                },
+                "tap": {
+                    "$ref": "#/definitions/CardAction",
+                    "description": "This action will be activated when user taps on the card itself",
+                    "title": "tap"
+                }
+            },
+            "required": [
+                "buttons",
+                "images",
+                "subtitle",
+                "tap",
+                "text",
+                "title"
+            ]
+        },
+        "MediaCard": {
+            "description": "Media card",
+            "title": "MediaCard",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title of this card",
+                    "type": "string",
+                    "title": "title"
+                },
+                "subtitle": {
+                    "description": "Subtitle of this card",
+                    "type": "string",
+                    "title": "subtitle"
+                },
+                "text": {
+                    "description": "Text of this card",
+                    "type": "string",
+                    "title": "text"
+                },
+                "image": {
+                    "$ref": "#/definitions/ThumbnailUrl",
+                    "description": "Thumbnail placeholder",
+                    "title": "image"
+                },
+                "media": {
+                    "description": "Media URLs for this card. When this field contains more than one URL, each URL is an\nalternative format of the same content.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MediaUrl"
+                    },
+                    "title": "media"
+                },
+                "buttons": {
+                    "description": "Actions on this card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                },
+                "shareable": {
+                    "description": "This content may be shared with others (default:true)",
+                    "type": "boolean",
+                    "title": "shareable"
+                },
+                "autoloop": {
+                    "description": "Should the client loop playback at end of content (default:true)",
+                    "type": "boolean",
+                    "title": "autoloop"
+                },
+                "autostart": {
+                    "description": "Should the client automatically start playback of media in this card (default:true)",
+                    "type": "boolean",
+                    "title": "autostart"
+                },
+                "aspect": {
+                    "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+                    "type": "string",
+                    "title": "aspect"
+                },
+                "duration": {
+                    "description": "Describes the length of the media content without requiring a receiver to open the content.\nFormatted as an ISO 8601 Duration field.",
+                    "type": "string",
+                    "title": "duration"
+                },
+                "value": {
+                    "description": "Supplementary parameter for this card",
+                    "title": "value"
+                }
+            },
+            "required": [
+                "aspect",
+                "autoloop",
+                "autostart",
+                "buttons",
+                "duration",
+                "image",
+                "media",
+                "shareable",
+                "subtitle",
+                "text",
+                "title",
+                "value"
+            ]
+        },
+        "Fact": {
+            "description": "Set of key-value pairs. Advantage of this section is that key and value properties will be\nrendered with default style information with some delimiter between them. So there is no need\nfor developer to specify style information.",
+            "title": "Fact",
+            "type": "object",
+            "properties": {
+                "key": {
+                    "description": "The key for this Fact",
+                    "type": "string",
+                    "title": "key"
+                },
+                "value": {
+                    "description": "The value for this Fact",
+                    "type": "string",
+                    "title": "value"
+                }
+            },
+            "required": [
+                "key",
+                "value"
+            ]
+        },
+        "ReceiptItem": {
+            "description": "An item on a receipt card",
+            "title": "ReceiptItem",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title of the Card",
+                    "type": "string",
+                    "title": "title"
+                },
+                "subtitle": {
+                    "description": "Subtitle appears just below Title field, differs from Title in font styling only",
+                    "type": "string",
+                    "title": "subtitle"
+                },
+                "text": {
+                    "description": "Text field appears just below subtitle, differs from Subtitle in font styling only",
+                    "type": "string",
+                    "title": "text"
+                },
+                "image": {
+                    "$ref": "#/definitions/CardImage",
+                    "description": "Image",
+                    "title": "image"
+                },
+                "price": {
+                    "description": "Amount with currency",
+                    "type": "string",
+                    "title": "price"
+                },
+                "quantity": {
+                    "description": "Number of items of given kind",
+                    "type": "string",
+                    "title": "quantity"
+                },
+                "tap": {
+                    "$ref": "#/definitions/CardAction",
+                    "description": "This action will be activated when user taps on the Item bubble.",
+                    "title": "tap"
+                }
+            },
+            "required": [
+                "image",
+                "price",
+                "quantity",
+                "subtitle",
+                "tap",
+                "text",
+                "title"
+            ]
+        },
+        "ReceiptCard": {
+            "description": "A receipt card",
+            "title": "ReceiptCard",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title of the card",
+                    "type": "string",
+                    "title": "title"
+                },
+                "facts": {
+                    "description": "Array of Fact objects",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Fact"
+                    },
+                    "title": "facts"
+                },
+                "items": {
+                    "description": "Array of Receipt Items",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ReceiptItem"
+                    },
+                    "title": "items"
+                },
+                "tap": {
+                    "$ref": "#/definitions/CardAction",
+                    "description": "This action will be activated when user taps on the card",
+                    "title": "tap"
+                },
+                "total": {
+                    "description": "Total amount of money paid (or to be paid)",
+                    "type": "string",
+                    "title": "total"
+                },
+                "tax": {
+                    "description": "Total amount of tax paid (or to be paid)",
+                    "type": "string",
+                    "title": "tax"
+                },
+                "vat": {
+                    "description": "Total amount of VAT paid (or to be paid)",
+                    "type": "string",
+                    "title": "vat"
+                },
+                "buttons": {
+                    "description": "Set of actions applicable to the current card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                }
+            },
+            "required": [
+                "buttons",
+                "facts",
+                "items",
+                "tap",
+                "tax",
+                "title",
+                "total",
+                "vat"
+            ]
+        },
+        "SigninCard": {
+            "description": "A card representing a request to sign in",
+            "title": "SigninCard",
+            "type": "object",
+            "properties": {
+                "text": {
+                    "description": "Text for signin request",
+                    "type": "string",
+                    "title": "text"
+                },
+                "buttons": {
+                    "description": "Action to use to perform signin",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                }
+            },
+            "required": [
+                "buttons"
+            ]
+        },
+        "OAuthCard": {
+            "description": "A card representing a request to perform a sign in via OAuth",
+            "title": "OAuthCard",
+            "type": "object",
+            "properties": {
+                "text": {
+                    "description": "Text for signin request",
+                    "type": "string",
+                    "title": "text"
+                },
+                "connectionName": {
+                    "description": "The name of the registered connection",
+                    "type": "string",
+                    "title": "connectionName"
+                },
+                "buttons": {
+                    "description": "Action to use to perform signin",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                }
+            },
+            "required": [
+                "buttons",
+                "connectionName",
+                "text"
+            ]
+        },
+        "ThumbnailCard": {
+            "description": "A thumbnail card (card with a single, small thumbnail image)",
+            "title": "ThumbnailCard",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title of the card",
+                    "type": "string",
+                    "title": "title"
+                },
+                "subtitle": {
+                    "description": "Subtitle of the card",
+                    "type": "string",
+                    "title": "subtitle"
+                },
+                "text": {
+                    "description": "Text for the card",
+                    "type": "string",
+                    "title": "text"
+                },
+                "images": {
+                    "description": "Array of images for the card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardImage"
+                    },
+                    "title": "images"
+                },
+                "buttons": {
+                    "description": "Set of actions applicable to the current card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                },
+                "tap": {
+                    "$ref": "#/definitions/CardAction",
+                    "description": "This action will be activated when user taps on the card itself",
+                    "title": "tap"
+                }
+            },
+            "required": [
+                "buttons",
+                "images",
+                "subtitle",
+                "tap",
+                "text",
+                "title"
+            ]
+        },
+        "VideoCard": {
+            "description": "Video card",
+            "title": "VideoCard",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "description": "Title of this card",
+                    "type": "string",
+                    "title": "title"
+                },
+                "subtitle": {
+                    "description": "Subtitle of this card",
+                    "type": "string",
+                    "title": "subtitle"
+                },
+                "text": {
+                    "description": "Text of this card",
+                    "type": "string",
+                    "title": "text"
+                },
+                "image": {
+                    "$ref": "#/definitions/ThumbnailUrl",
+                    "description": "Thumbnail placeholder",
+                    "title": "image"
+                },
+                "media": {
+                    "description": "Media URLs for this card. When this field contains more than one URL, each URL is an\nalternative format of the same content.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MediaUrl"
+                    },
+                    "title": "media"
+                },
+                "buttons": {
+                    "description": "Actions on this card",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CardAction"
+                    },
+                    "title": "buttons"
+                },
+                "shareable": {
+                    "description": "This content may be shared with others (default:true)",
+                    "type": "boolean",
+                    "title": "shareable"
+                },
+                "autoloop": {
+                    "description": "Should the client loop playback at end of content (default:true)",
+                    "type": "boolean",
+                    "title": "autoloop"
+                },
+                "autostart": {
+                    "description": "Should the client automatically start playback of media in this card (default:true)",
+                    "type": "boolean",
+                    "title": "autostart"
+                },
+                "aspect": {
+                    "description": "Aspect ratio of thumbnail/media placeholder. Allowed values are \"16:9\" and \"4:3\"",
+                    "type": "string",
+                    "title": "aspect"
+                },
+                "duration": {
+                    "description": "Describes the length of the media content without requiring a receiver to open the content.\nFormatted as an ISO 8601 Duration field.",
+                    "type": "string",
+                    "title": "duration"
+                },
+                "value": {
+                    "description": "Supplementary parameter for this card",
+                    "title": "value"
+                }
+            },
+            "required": [
+                "aspect",
+                "autoloop",
+                "autostart",
+                "buttons",
+                "duration",
+                "image",
+                "media",
+                "shareable",
+                "subtitle",
+                "text",
+                "title",
+                "value"
+            ]
+        },
+        "GeoCoordinates": {
+            "description": "GeoCoordinates (entity type: \"https://schema.org/GeoCoordinates\")",
+            "title": "GeoCoordinates",
+            "type": "object",
+            "properties": {
+                "elevation": {
+                    "description": "Elevation of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)",
+                    "type": "number",
+                    "title": "elevation"
+                },
+                "latitude": {
+                    "description": "Latitude of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)",
+                    "type": "number",
+                    "title": "latitude"
+                },
+                "longitude": {
+                    "description": "Longitude of the location [WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)",
+                    "type": "number",
+                    "title": "longitude"
+                },
+                "type": {
+                    "description": "The type of the thing",
+                    "type": "string",
+                    "title": "type"
+                },
+                "name": {
+                    "description": "The name of the thing",
+                    "type": "string",
+                    "title": "name"
+                }
+            },
+            "required": [
+                "elevation",
+                "latitude",
+                "longitude",
+                "name",
+                "type"
+            ]
+        },
+        "Mention": {
+            "description": "Mention information (entity type: \"mention\")",
+            "title": "Mention",
+            "type": "object",
+            "properties": {
+                "mentioned": {
+                    "$ref": "#/definitions/ChannelAccount",
+                    "description": "The mentioned user",
+                    "title": "mentioned"
+                },
+                "text": {
+                    "description": "Sub Text which represents the mention (can be null or empty)",
+                    "type": "string",
+                    "title": "text"
+                },
+                "type": {
+                    "description": "Type of this entity (RFC 3987 IRI)",
+                    "type": "string",
+                    "title": "type"
+                }
+            },
+            "required": [
+                "mentioned",
+                "text",
+                "type"
+            ]
+        },
+        "Place": {
+            "description": "Place (entity type: \"https://schema.org/Place\")",
+            "title": "Place",
+            "type": "object",
+            "properties": {
+                "address": {
+                    "description": "Address of the place (may be `string` or complex object of type `PostalAddress`)",
+                    "title": "address"
+                },
+                "geo": {
+                    "description": "Geo coordinates of the place (may be complex object of type `GeoCoordinates` or `GeoShape`)",
+                    "title": "geo"
+                },
+                "hasMap": {
+                    "description": "Map to the place (may be `string` (URL) or complex object of type `Map`)",
+                    "title": "hasMap"
+                },
+                "type": {
+                    "description": "The type of the thing",
+                    "type": "string",
+                    "title": "type"
+                },
+                "name": {
+                    "description": "The name of the thing",
+                    "type": "string",
+                    "title": "name"
+                }
+            },
+            "required": [
+                "address",
+                "geo",
+                "hasMap",
+                "name",
+                "type"
+            ]
+        },
+        "Thing": {
+            "description": "Thing (entity type: \"https://schema.org/Thing\")",
+            "title": "Thing",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "The type of the thing",
+                    "type": "string",
+                    "title": "type"
+                },
+                "name": {
+                    "description": "The name of the thing",
+                    "type": "string",
+                    "title": "name"
+                }
+            },
+            "required": [
+                "name",
+                "type"
+            ]
+        },
+        "MediaEventValue": {
+            "description": "Supplementary parameter for media events",
+            "title": "MediaEventValue",
+            "type": "object",
+            "properties": {
+                "cardValue": {
+                    "description": "Callback parameter specified in the Value field of the MediaCard that originated this event",
+                    "title": "cardValue"
+                }
+            },
+            "required": [
+                "cardValue"
+            ]
+        },
+        "TokenRequest": {
+            "description": "A request to receive a user token",
+            "title": "TokenRequest",
+            "type": "object",
+            "properties": {
+                "provider": {
+                    "description": "The provider to request a user token from",
+                    "type": "string",
+                    "title": "provider"
+                },
+                "settings": {
+                    "description": "A collection of settings for the specific provider for this request",
+                    "type": "object",
+                    "additionalProperties": {},
+                    "title": "settings"
+                }
+            },
+            "required": [
+                "provider",
+                "settings"
+            ]
+        },
+        "TokenResponse": {
+            "description": "A response that includes a user token",
+            "title": "TokenResponse",
+            "type": "object",
+            "properties": {
+                "connectionName": {
+                    "description": "The connection name",
+                    "type": "string",
+                    "title": "connectionName"
+                },
+                "token": {
+                    "description": "The user token",
+                    "type": "string",
+                    "title": "token"
+                },
+                "expiration": {
+                    "description": "Expiration for the token, in ISO 8601 format (e.g. \"2007-04-05T14:30Z\")",
+                    "type": "string",
+                    "title": "expiration"
+                }
+            },
+            "required": [
+                "connectionName",
+                "expiration",
+                "token"
+            ]
+        },
+        "MicrosoftPayMethodData": {
+            "description": "W3C Payment Method Data for Microsoft Pay",
+            "title": "MicrosoftPayMethodData",
+            "type": "object",
+            "properties": {
+                "merchantId": {
+                    "description": "Microsoft Pay Merchant ID",
+                    "type": "string",
+                    "title": "merchantId"
+                },
+                "supportedNetworks": {
+                    "description": "Supported payment networks (e.g., \"visa\" and \"mastercard\")",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "supportedNetworks"
+                },
+                "supportedTypes": {
+                    "description": "Supported payment types (e.g., \"credit\")",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "supportedTypes"
+                }
+            },
+            "required": [
+                "merchantId",
+                "supportedNetworks",
+                "supportedTypes"
+            ]
+        },
+        "PaymentAddress": {
+            "description": "Address within a Payment Request",
+            "title": "PaymentAddress",
+            "type": "object",
+            "properties": {
+                "country": {
+                    "description": "This is the CLDR (Common Locale Data Repository) region code. For example, US, GB, CN, or JP",
+                    "type": "string",
+                    "title": "country"
+                },
+                "addressLine": {
+                    "description": "This is the most specific part of the address. It can include, for example, a street name, a\nhouse number, apartment number, a rural delivery route, descriptive instructions, or a post\noffice box number.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "addressLine"
+                },
+                "region": {
+                    "description": "This is the top level administrative subdivision of the country. For example, this can be a\nstate, a province, an oblast, or a prefecture.",
+                    "type": "string",
+                    "title": "region"
+                },
+                "city": {
+                    "description": "This is the city/town portion of the address.",
+                    "type": "string",
+                    "title": "city"
+                },
+                "dependentLocality": {
+                    "description": "This is the dependent locality or sublocality within a city. For example, used for\nneighborhoods, boroughs, districts, or UK dependent localities.",
+                    "type": "string",
+                    "title": "dependentLocality"
+                },
+                "postalCode": {
+                    "description": "This is the postal code or ZIP code, also known as PIN code in India.",
+                    "type": "string",
+                    "title": "postalCode"
+                },
+                "sortingCode": {
+                    "description": "This is the sorting code as used in, for example, France.",
+                    "type": "string",
+                    "title": "sortingCode"
+                },
+                "languageCode": {
+                    "description": "This is the BCP-47 language code for the address. It's used to determine the field separators\nand the order of fields when formatting the address for display.",
+                    "type": "string",
+                    "title": "languageCode"
+                },
+                "organization": {
+                    "description": "This is the organization, firm, company, or institution at this address.",
+                    "type": "string",
+                    "title": "organization"
+                },
+                "recipient": {
+                    "description": "This is the name of the recipient or contact person.",
+                    "type": "string",
+                    "title": "recipient"
+                },
+                "phone": {
+                    "description": "This is the phone number of the recipient or contact person.",
+                    "type": "string",
+                    "title": "phone"
+                }
+            },
+            "required": [
+                "addressLine",
+                "city",
+                "country",
+                "dependentLocality",
+                "languageCode",
+                "organization",
+                "phone",
+                "postalCode",
+                "recipient",
+                "region",
+                "sortingCode"
+            ]
+        },
+        "PaymentCurrencyAmount": {
+            "description": "Supplies monetary amounts",
+            "title": "PaymentCurrencyAmount",
+            "type": "object",
+            "properties": {
+                "currency": {
+                    "description": "A currency identifier",
+                    "type": "string",
+                    "title": "currency"
+                },
+                "value": {
+                    "description": "Decimal monetary value",
+                    "type": "string",
+                    "title": "value"
+                },
+                "currencySystem": {
+                    "description": "Currency system",
+                    "type": "string",
+                    "title": "currencySystem"
+                }
+            },
+            "required": [
+                "currency",
+                "currencySystem",
+                "value"
+            ]
+        },
+        "PaymentItem": {
+            "description": "Indicates what the payment request is for and the value asked for",
+            "title": "PaymentItem",
+            "type": "object",
+            "properties": {
+                "label": {
+                    "description": "Human-readable description of the item",
+                    "type": "string",
+                    "title": "label"
+                },
+                "amount": {
+                    "$ref": "#/definitions/PaymentCurrencyAmount",
+                    "description": "Monetary amount for the item",
+                    "title": "amount"
+                },
+                "pending": {
+                    "description": "When set to true this flag means that the amount field is not final.",
+                    "type": "boolean",
+                    "title": "pending"
+                }
+            },
+            "required": [
+                "amount",
+                "label",
+                "pending"
+            ]
+        },
+        "PaymentShippingOption": {
+            "description": "Describes a shipping option",
+            "title": "PaymentShippingOption",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "String identifier used to reference this PaymentShippingOption",
+                    "type": "string",
+                    "title": "id"
+                },
+                "label": {
+                    "description": "Human-readable description of the item",
+                    "type": "string",
+                    "title": "label"
+                },
+                "amount": {
+                    "$ref": "#/definitions/PaymentCurrencyAmount",
+                    "description": "Contains the monetary amount for the item",
+                    "title": "amount"
+                },
+                "selected": {
+                    "description": "Indicates whether this is the default selected PaymentShippingOption",
+                    "type": "boolean",
+                    "title": "selected"
+                }
+            },
+            "required": [
+                "amount",
+                "id",
+                "label",
+                "selected"
+            ]
+        },
+        "PaymentDetailsModifier": {
+            "description": "Provides details that modify the PaymentDetails based on payment method identifier",
+            "title": "PaymentDetailsModifier",
+            "type": "object",
+            "properties": {
+                "supportedMethods": {
+                    "description": "Contains a sequence of payment method identifiers",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "supportedMethods"
+                },
+                "total": {
+                    "$ref": "#/definitions/PaymentItem",
+                    "description": "This value overrides the total field in the PaymentDetails dictionary for the payment method\nidentifiers in the supportedMethods field",
+                    "title": "total"
+                },
+                "additionalDisplayItems": {
+                    "description": "Provides additional display items that are appended to the displayItems field in the\nPaymentDetails dictionary for the payment method identifiers in the supportedMethods field",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PaymentItem"
+                    },
+                    "title": "additionalDisplayItems"
+                },
+                "data": {
+                    "description": "A JSON-serializable object that provides optional information that might be needed by the\nsupported payment methods",
+                    "title": "data"
+                }
+            },
+            "required": [
+                "additionalDisplayItems",
+                "data",
+                "supportedMethods",
+                "total"
+            ]
+        },
+        "PaymentDetails": {
+            "description": "Provides information about the requested transaction",
+            "title": "PaymentDetails",
+            "type": "object",
+            "properties": {
+                "total": {
+                    "$ref": "#/definitions/PaymentItem",
+                    "description": "Contains the total amount of the payment request",
+                    "title": "total"
+                },
+                "displayItems": {
+                    "description": "Contains line items for the payment request that the user agent may display",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PaymentItem"
+                    },
+                    "title": "displayItems"
+                },
+                "shippingOptions": {
+                    "description": "A sequence containing the different shipping options for the user to choose from",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PaymentShippingOption"
+                    },
+                    "title": "shippingOptions"
+                },
+                "modifiers": {
+                    "description": "Contains modifiers for particular payment method identifiers",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PaymentDetailsModifier"
+                    },
+                    "title": "modifiers"
+                },
+                "error": {
+                    "description": "Error description",
+                    "type": "string",
+                    "title": "error"
+                }
+            },
+            "required": [
+                "displayItems",
+                "error",
+                "modifiers",
+                "shippingOptions",
+                "total"
+            ]
+        },
+        "PaymentMethodData": {
+            "description": "Indicates a set of supported payment methods and any associated payment method specific data for\nthose methods",
+            "title": "PaymentMethodData",
+            "type": "object",
+            "properties": {
+                "supportedMethods": {
+                    "description": "Required sequence of strings containing payment method identifiers for payment methods that\nthe merchant web site accepts",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "supportedMethods"
+                },
+                "data": {
+                    "description": "A JSON-serializable object that provides optional information that might be needed by the\nsupported payment methods",
+                    "title": "data"
+                }
+            },
+            "required": [
+                "data",
+                "supportedMethods"
+            ]
+        },
+        "PaymentOptions": {
+            "description": "Provides information about the options desired for the payment request",
+            "title": "PaymentOptions",
+            "type": "object",
+            "properties": {
+                "requestPayerName": {
+                    "description": "Indicates whether the user agent should collect and return the payer's name as part of the\npayment request",
+                    "type": "boolean",
+                    "title": "requestPayerName"
+                },
+                "requestPayerEmail": {
+                    "description": "Indicates whether the user agent should collect and return the payer's email address as part\nof the payment request",
+                    "type": "boolean",
+                    "title": "requestPayerEmail"
+                },
+                "requestPayerPhone": {
+                    "description": "Indicates whether the user agent should collect and return the payer's phone number as part of\nthe payment request",
+                    "type": "boolean",
+                    "title": "requestPayerPhone"
+                },
+                "requestShipping": {
+                    "description": "Indicates whether the user agent should collect and return a shipping address as part of the\npayment request",
+                    "type": "boolean",
+                    "title": "requestShipping"
+                },
+                "shippingType": {
+                    "description": "If requestShipping is set to true, then the shippingType field may be used to influence the\nway the user agent presents the user interface for gathering the shipping address",
+                    "type": "string",
+                    "title": "shippingType"
+                }
+            },
+            "required": [
+                "requestPayerEmail",
+                "requestPayerName",
+                "requestPayerPhone",
+                "requestShipping",
+                "shippingType"
+            ]
+        },
+        "PaymentRequest": {
+            "description": "A request to make a payment",
+            "title": "PaymentRequest",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "ID of this payment request",
+                    "type": "string",
+                    "title": "id"
+                },
+                "methodData": {
+                    "description": "Allowed payment methods for this request",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PaymentMethodData"
+                    },
+                    "title": "methodData"
+                },
+                "details": {
+                    "$ref": "#/definitions/PaymentDetails",
+                    "description": "Details for this request",
+                    "title": "details"
+                },
+                "options": {
+                    "$ref": "#/definitions/PaymentOptions",
+                    "description": "Provides information about the options desired for the payment request",
+                    "title": "options"
+                },
+                "expires": {
+                    "description": "Expiration for this request, in ISO 8601 duration format (e.g., 'P1D')",
+                    "type": "string",
+                    "title": "expires"
+                }
+            },
+            "required": [
+                "details",
+                "expires",
+                "id",
+                "methodData",
+                "options"
+            ]
+        },
+        "PaymentResponse": {
+            "description": "A PaymentResponse is returned when a user has selected a payment method and approved a payment\nrequest",
+            "title": "PaymentResponse",
+            "type": "object",
+            "properties": {
+                "methodName": {
+                    "description": "The payment method identifier for the payment method that the user selected to fulfil the\ntransaction",
+                    "type": "string",
+                    "title": "methodName"
+                },
+                "details": {
+                    "description": "A JSON-serializable object that provides a payment method specific message used by the\nmerchant to process the transaction and determine successful fund transfer",
+                    "title": "details"
+                },
+                "shippingAddress": {
+                    "$ref": "#/definitions/PaymentAddress",
+                    "description": "If the requestShipping flag was set to true in the PaymentOptions passed to the PaymentRequest\nconstructor, then shippingAddress will be the full and final shipping address chosen by the\nuser",
+                    "title": "shippingAddress"
+                },
+                "shippingOption": {
+                    "description": "If the requestShipping flag was set to true in the PaymentOptions passed to the PaymentRequest\nconstructor, then shippingOption will be the id attribute of the selected shipping option",
+                    "type": "string",
+                    "title": "shippingOption"
+                },
+                "payerEmail": {
+                    "description": "If the requestPayerEmail flag was set to true in the PaymentOptions passed to the\nPaymentRequest constructor, then payerEmail will be the email address chosen by the user",
+                    "type": "string",
+                    "title": "payerEmail"
+                },
+                "payerPhone": {
+                    "description": "If the requestPayerPhone flag was set to true in the PaymentOptions passed to the\nPaymentRequest constructor, then payerPhone will be the phone number chosen by the user",
+                    "type": "string",
+                    "title": "payerPhone"
+                }
+            },
+            "required": [
+                "details",
+                "methodName",
+                "payerEmail",
+                "payerPhone",
+                "shippingAddress",
+                "shippingOption"
+            ]
+        },
+        "PaymentRequestComplete": {
+            "description": "Payload delivered when completing a payment request",
+            "title": "PaymentRequestComplete",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "Payment request ID",
+                    "type": "string",
+                    "title": "id"
+                },
+                "paymentRequest": {
+                    "$ref": "#/definitions/PaymentRequest",
+                    "description": "Initial payment request",
+                    "title": "paymentRequest"
+                },
+                "paymentResponse": {
+                    "$ref": "#/definitions/PaymentResponse",
+                    "description": "Corresponding payment response",
+                    "title": "paymentResponse"
+                }
+            },
+            "required": [
+                "id",
+                "paymentRequest",
+                "paymentResponse"
+            ]
+        },
+        "PaymentRequestCompleteResult": {
+            "description": "Result from a completed payment request",
+            "title": "PaymentRequestCompleteResult",
+            "type": "object",
+            "properties": {
+                "result": {
+                    "description": "Result of the payment request completion",
+                    "type": "string",
+                    "title": "result"
+                }
+            },
+            "required": [
+                "result"
+            ]
+        },
+        "PaymentRequestUpdate": {
+            "description": "An update to a payment request",
+            "title": "PaymentRequestUpdate",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "ID for the payment request to update",
+                    "type": "string",
+                    "title": "id"
+                },
+                "details": {
+                    "$ref": "#/definitions/PaymentDetails",
+                    "description": "Update payment details",
+                    "title": "details"
+                },
+                "shippingAddress": {
+                    "$ref": "#/definitions/PaymentAddress",
+                    "description": "Updated shipping address",
+                    "title": "shippingAddress"
+                },
+                "shippingOption": {
+                    "description": "Updated shipping options",
+                    "type": "string",
+                    "title": "shippingOption"
+                }
+            },
+            "required": [
+                "details",
+                "id",
+                "shippingAddress",
+                "shippingOption"
+            ]
+        },
+        "PaymentRequestUpdateResult": {
+            "description": "A result object from a Payment Request Update invoke operation",
+            "title": "PaymentRequestUpdateResult",
+            "type": "object",
+            "properties": {
+                "details": {
+                    "$ref": "#/definitions/PaymentDetails",
+                    "description": "Update payment details",
+                    "title": "details"
+                }
+            },
+            "required": [
+                "details"
+            ]
+        },
+        "RoleTypes": {
+            "description": "Defines values for RoleTypes.\nPossible values include: 'user', 'bot'",
+            "enum": [
+                "bot",
+                "user"
+            ],
+            "type": "string"
+        },
+        "ActivityTypes": {
+            "description": "Defines values for ActivityTypes.\nPossible values include: 'message', 'contactRelationUpdate', 'conversationUpdate', 'typing',\n'endOfConversation', 'event', 'invoke', 'deleteUserData', 'messageUpdate', 'messageDelete',\n'installationUpdate', 'messageReaction', 'suggestion', 'trace', 'handoff'",
+            "enum": [
+                "contactRelationUpdate",
+                "conversationUpdate",
+                "deleteUserData",
+                "endOfConversation",
+                "event",
+                "handoff",
+                "installationUpdate",
+                "invoke",
+                "message",
+                "messageDelete",
+                "messageReaction",
+                "messageUpdate",
+                "suggestion",
+                "trace",
+                "typing"
+            ],
+            "type": "string"
+        },
+        "TextFormatTypes": {
+            "description": "Defines values for TextFormatTypes.\nPossible values include: 'markdown', 'plain', 'xml'",
+            "enum": [
+                "markdown",
+                "plain",
+                "xml"
+            ],
+            "type": "string"
+        },
+        "AttachmentLayoutTypes": {
+            "description": "Defines values for AttachmentLayoutTypes.\nPossible values include: 'list', 'carousel'",
+            "enum": [
+                "carousel",
+                "list"
+            ],
+            "type": "string"
+        },
+        "MessageReactionTypes": {
+            "description": "Defines values for MessageReactionTypes.\nPossible values include: 'like', 'plusOne'",
+            "enum": [
+                "like",
+                "plusOne"
+            ],
+            "type": "string"
+        },
+        "InputHints": {
+            "description": "Defines values for InputHints.\nPossible values include: 'acceptingInput', 'ignoringInput', 'expectingInput'",
+            "enum": [
+                "acceptingInput",
+                "expectingInput",
+                "ignoringInput"
+            ],
+            "type": "string"
+        },
+        "ActionTypes": {
+            "description": "Defines values for ActionTypes.\nPossible values include: 'openUrl', 'imBack', 'postBack', 'playAudio', 'playVideo', 'showImage',\n'downloadFile', 'signin', 'call', 'payment', 'messageBack'",
+            "enum": [
+                "call",
+                "downloadFile",
+                "imBack",
+                "messageBack",
+                "openUrl",
+                "payment",
+                "playAudio",
+                "playVideo",
+                "postBack",
+                "showImage",
+                "signin"
+            ],
+            "type": "string"
+        },
+        "EndOfConversationCodes": {
+            "description": "Defines values for EndOfConversationCodes.\nPossible values include: 'unknown', 'completedSuccessfully', 'userCancelled', 'botTimedOut',\n'botIssuedInvalidMessage', 'channelFailed'",
+            "enum": [
+                "botIssuedInvalidMessage",
+                "botTimedOut",
+                "channelFailed",
+                "completedSuccessfully",
+                "unknown",
+                "userCancelled"
+            ],
+            "type": "string"
+        },
+        "ActivityImportance": {
+            "description": "Defines values for ActivityImportance.\nPossible values include: 'low', 'normal', 'high'",
+            "enum": [
+                "high",
+                "low",
+                "normal"
+            ],
+            "type": "string"
+        },
+        "DeliveryModes": {
+            "description": "Defines values for DeliveryModes.\nPossible values include: 'normal', 'notification'",
+            "enum": [
+                "normal",
+                "notification"
+            ],
+            "type": "string"
+        },
+        "ContactRelationUpdateActionTypes": {
+            "description": "Defines values for ContactRelationUpdateActionTypes.\nPossible values include: 'add', 'remove'",
+            "enum": [
+                "add",
+                "remove"
+            ],
+            "type": "string"
+        },
+        "InstallationUpdateActionTypes": {
+            "description": "Defines values for InstallationUpdateActionTypes.\nPossible values include: 'add', 'remove'",
+            "enum": [
+                "add",
+                "remove"
+            ],
+            "type": "string"
+        }
+    }
+}
